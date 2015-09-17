@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<script src="Scripts/jquery-2.1.4.js"></script>
+	<script src="Scripts/jquery.signalR-2.2.0.js"></script>
+</head>
+<body>
+	<textarea id="chat" style="width:400px; height:200px">
+
+	</textarea>
+	<div>
+		<label>Menssage</label>
+		<input  type="text" id="txt"/>
+		<button id="btn">Send</button>
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	$(function () {
+		var connection = $.connection("/echo");
+
+
+		connection.start().done(function () {
+		    debugger;
+			console.log("connected");
+			$('#chat').val("connected\n");
+			$('#btn').click(function () {
+			    debugger;
+			    var txt = $('#txt').val();
+			    connection.send(txt)
+				$('#txt').val('');
+			});
+		});
+
+		connection.received(function (data) {
+		    $('#chat').val($('#chat').val() + data + "\n");
+		});
+	});
+</script>
