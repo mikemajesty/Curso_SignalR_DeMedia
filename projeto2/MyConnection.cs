@@ -17,6 +17,7 @@ namespace projeto2
         {
             Interlocked.Increment(ref QuantityConnection);
             Connection.Broadcast($"Visitors:{QuantityConnection}");
+            Connection.Send(connectionId,"Bem Vindo: "+ connectionId);
             return base.OnConnected(request,connectionId);
         }
 
