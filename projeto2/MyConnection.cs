@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using System.Threading;
 using System.Threading.Tasks;
 namespace projeto2
 {
@@ -8,5 +9,23 @@ namespace projeto2
         {
             return Connection.Broadcast(data);
         }
+
+        //------------------------------------------------------------------------------------//
+        private static int QuantityConnection = 0;
+
+        protected override Task OnConnected(IRequest request, string connectionId)
+        {
+            Interlocked.Increment(ref QuantityConnection);
+            Connection.Broadcast($"Visitors:{QuantityConnection}");
+            return base.OnConnected(request,connectionId);
+        }
+
+        protected override Task OnDisconnected(IRequest request, string connectionId, bool stopCalled)
+        {
+            Interlocked.Decrement(ref QuantityConnection);
+            Connection.Broadcast($"Visitors:{QuantityConnection}");
+            return base.OnDisconnected(request, connectionId, stopCalled);
+        }
+
     }
 }
