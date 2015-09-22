@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var connection = $.connection('/communication/test');
+            connection.start({ transport: ['longPolling', 'webSockets'] }, function () {
+                connection.send('hello world');
+            });
+            connection.error(function (error) {
+                console.warn(error);
+            });
+            connection.stop();
+        });
+    </script>
+</head>
+<body>
+    <input type="text" />
+
+
+
+
+</body>
+</html>

@@ -11,7 +11,7 @@ namespace projeto4
     {
         public void Configuration(IAppBuilder app)
         {
-          
+            app.MapSignalR<MyConnection>("/communication/test");
         }
     }
 }
