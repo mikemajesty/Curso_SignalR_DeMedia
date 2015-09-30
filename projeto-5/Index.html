@@ -2,11 +2,50 @@
 <html>
 <head>
     <title></title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            
+            var connection = $.connection(URL = "connect");
+            connection.start(function () {
+                $('#chat').val('connected');
 
+                $('#btnSend').click(function (e) {
+                    e.preventDefault();
+                    var obj =
+                        {
+                            Type: 1,
+                            Text: $('#txtMessage').val(),
+                            From: $('#txtUser').val()
+                        };
+                    connection.send(obj);
+                    $('#txtMessage').val('');
+                });
+            });
+            connection.error(function (error) {
+                alert("Error: "+error.message);
+            });
+            connection.received(function (msm) {
+                var m = $('#chat').val();
+                $('#chat').val(m+"\n"+msm)
+            });
+        });
+    </script>
 </head>
 <body>
-   
+    <textarea id="chat" style="width:400pt; height:200pt"></textarea>
+    <div>
+        <label>User</label>
+        <input type="text" id="txtUser" /><br />
+        <label>Message</label>
+        <input id="txtMessage" type="text" />
+        <button id="btnSend">Send</button>
+    </div>
+
+
+
 </body>
 
 </html>

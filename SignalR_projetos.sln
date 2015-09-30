@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR_projeto1", "SignalR_projeto1\SignalR_projeto1.csproj", "{BA5B73B4-0CC3-46A6-9B2A-814284EDEE68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto-1", "SignalR_projeto1\projeto-1.csproj", "{BA5B73B4-0CC3-46A6-9B2A-814284EDEE68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto2", "projeto2\projeto2.csproj", "{60A93140-3069-4305-BC84-E16DE64CCBE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto", "projeto\projeto.csproj", "{276DD6B7-FB9F-4CB4-8225-32E3AF0E1ECA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto-3", "projeto\projeto-3.csproj", "{276DD6B7-FB9F-4CB4-8225-32E3AF0E1ECA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "projeto4", "projeto4\projeto4.csproj", "{273464E5-40C0-44AA-A4DF-205B14096947}"
 EndProject
