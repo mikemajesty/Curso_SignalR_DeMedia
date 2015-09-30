@@ -10,7 +10,8 @@
         $(function () {
             var connection = $.connection('/communication/test');
             connection.start({ transport: ['longPolling', 'webSockets'] }, function () {
-                connection.send('hello world');
+                var a = connection.send('hello world').state();
+                alert(a);
             });
             connection.error(function (error) {
                 console.warn(error);
