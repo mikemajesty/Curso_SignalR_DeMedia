@@ -7,7 +7,7 @@
     <script src="Scripts/jquery.signalR-2.2.0.js"></script>
     <script type="text/javascript">
         $(function () {
-            
+
             var connection = $.connection(URL = "connect");
             connection.start(function () {
                 $('#chat').val('connected');
@@ -25,11 +25,25 @@
                 });
             });
             connection.error(function (error) {
-                alert("Error: "+error.message);
+                alert("Error: " + error.message);
             });
             connection.received(function (msm) {
                 var m = $('#chat').val();
-                $('#chat').val(m+"\n"+msm)
+                $('#chat').val(m + "\n" + msm)
+            });
+            connection.reconnected(function () {
+                alert('You was reconnected');
+            });
+            connection.stateChanged(function (change) {
+                if (change.newState == $.signalR.connectionState.reconnecting) {
+                    alert('Your connection state was modified');
+                }
+                else if (change.newState == $.signalR.connectionState.connected) {
+                    alert('Your connection state was successful');
+                }
+            });
+            connection.connectionSlow(function () {
+                alert('Your connection state is slowly, Please verify');
             });
         });
     </script>
