@@ -6,11 +6,13 @@
     });
     function startTrack() {
         $('body').mousemove(function (e) {
+           
             var data = { x: e.pageX, y: e.pageY, id: connection.id };
             connection.send(data);
         });
     }
     connection.received(function (data) {
+        debugger;
         data = JSON.parse(data);
         var domElement = "id: " + data.id;
         var element = createElementIfNotExists(domElement);
@@ -18,14 +20,12 @@
     });
 
     function createElementIfNotExists(id) {
+        debugger;
         var element = $('#' + id);
         if (element.length == 0) {
             element = $("<span class='client' id='" + id + "'></span>");
-            element.css({
-                backgroundcolor:RandomColor(),
-                color:000000
-
-            });
+            element.css('background-color',RandomColor()).css('color','#000000')                
+           
             $('body').append(element).show();
         }
         return element;
