@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src='signalr/js'></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.myConnection;
+
+            $.connection.hub.start().done(function () {
+                $("#chat").val("connected\n");
+                $('#btn').click(function () {
+                    debugger;
+                    chat.server.mySend($('#sms').val());
+                    $('#sms').empty();
+                });
+            });
+            
+            chat.client.sendMessage = function (message) {
+                $("#chat").val($("#chat").val() + message + "\n");
+            }
+        })
+    </script>
+    <style type="text/css">
+
+
+    </style>
+</head>
+<body>
+    <input type="text" id="sms" />
+    <input type="button" id="btn" value="send" />
+    <hr />
+    <textarea id="chat" style="width:400px; height:100px"></textarea>
+</body>
+</html>
