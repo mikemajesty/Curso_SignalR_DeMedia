@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src='signalr/js'></script>
+    <script type="text/javascript">
+        $(function () {
+            var chat = $.connection.myConnection;
+
+            $('#displayName').val(prompt("Enter your name: ", ""));
+            $('#sms').focus();
+
+            $.connection.hub.start().done(function () {
+                $("#chat").val("connected\n");
+                $('#btn').click(function () {
+                    debugger
+                    var timeNow = new Date();                
+                  
+                    chat.server.mySend({ name: $('#displayName').val(), message: $('#sms').val(), time: timeNow.toUTCString() });
+                    $('#sms').empty();
+                });
+                $('#alertAll').click(function () {
+                    chat.server.alertAll($('#displayName').val(),$.connection.hub.id);
+                });
+            });
+
+            chat.client.sendMessage = function (name, message, time) {
+                $("#chat").val($("#chat").val() + time + "\n" + name + " :" + message + "\n");
+            };
+            chat.client.showAlertAll = function (name) {
+                alert("atention!!!\n" + name +" alert you.");
+            };
+        })
+    </script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <input  type="hidden" id="displayName"/>
+    <input type="text" id="sms" />
+    <input type="button" id="btn" value="send" />
+    <input  type="button" value="alert All" id="alertAll"/>
+    <hr />
+    <textarea id="chat" style="width:400px; height:100px"></textarea>
+</body>
+</html>
