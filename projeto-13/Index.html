@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src='signalr/js'></script>
+    <script type="text/javascript">
+        $(function () {
+            
+            $('#displayName').val(prompt("Enter your name: ", ""));
+            var chat = $.connection.myConnection;
+            $.connection.hub.qs = { "myQueryString": $('#displayName').val()};
+            $('#sms').focus();
+
+            $.connection.hub.start().done(function () {
+                $("#chat").val("connected\n");
+                chat.server.connected("Welcome " + $('#displayName').val()+" ID: "+ $.connection.hub.id);
+                $('#btn').click(function () {
+                    var timeNow = new Date();
+                    chat.server.mySend({ name: $('#displayName').val(), message: $('#sms').val(), time: timeNow.toUTCString(),client: $("#client").val() });
+                    $('#sms').empty();
+                }); 
+                $('#btnInfo').click(function () {
+                    chat.server.infoServer();
+                });
+            });
+
+            chat.client.showAlertServer = function (text) {
+                alert(text);
+            }
+           
+        })
+    </script>
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <input type="hidden" id="displayName" />
+    <input type="button" id="btnInfo" value="Show saved in the server"/>
+ 
+</body>
+</html>
