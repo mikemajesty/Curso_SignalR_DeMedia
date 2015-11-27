@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <script src="Scripts/jquery-2.1.4.js"></script>
+    <script src="Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="signalr/js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var shapeHub = $.connection.shapehub;
+
+            $shape = $('#shape');
+
+            shapeModel = { left: 0, top: 0 };
+
+            shapeHub.client.updateShape = function (model) {
+                shapeModel = model;
+                $shape.css({ left: model.left, top: model.top });
+            };
+            $.connection.hub.start().done(function () {
+                $shape.draggable({
+                    drag: function () {
+                        shapeModel = $shape.offset();
+                        shapeHub.server.updateModel(shapeModel);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="shape" style="width:100px; height:100px; background-color:blue">
+
+    </div>
+</body>
+</html>
