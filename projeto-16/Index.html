@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <script src="Scripts/jquery-2.1.4.js"></script>
+    <script src="Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="Scripts/jquery.signalR-2.1.2.js"></script>
+    <script src="myApp/js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            var shapeHub = $.connection.shapehub;
+
+            $shape = $('#shape');
+
+            shapeModel = { left: 0, top: 0 };
+
+            shapeHub.client.updateShape = function (model) {
+                shapeModel = model;
+                $shape.css({ left: model.left, top: model.top - 400 });
+            };
+            var myChatHub = $.connection.chatHub;
+
+            $.connection.hub.start()
+            .done(function () {
+                $('#msgWindow').val($('#msgWindow').val() + 'Connection was connected\n');
+                $shape.draggable({
+                    drag: function () {
+                        shapeModel = $shape.offset();
+                        shapeHub.server.updateModel(shapeModel);
+                    }
+                });
+                $('#disconect').click(function () {
+                    $.connection.hub.stop();
+                    $('#msgWindow').val($('#msgWindow').val() + 'Connection was stopped\n');
+                });
+                $('#sendMessage').click(function () {
+                    
+                    myChatHub.server.sendMeddageToAll($('#txtMessage').val());
+                    $('#txtMessage').val("");
+                });
+
+            }).fail(function () {
+                alert("Deu error")
+            });
+
+            $.connection.hub.disconnected(function () {
+                $('#msgWindow').val($('#msgWindow').val() + 'Connection was disconnected\n');
+                setTimeout(function () {
+                  
+                    $.connection.hub.start().done(function () {
+                        $('#msgWindow').val($('#msgWindow').val() + 'Connection was connected');
+                    });
+                },5000);
+            });
+            $.connection.hub.reconnected(function () {
+                $('#msgWindow').val($('#msgWindow').val() + 'Connection was reconnected');
+            });
+            $.connection.hub.connectionSlow(function () {
+                $('#msgWindow').val($('#msgWindow').val() + 'Connection was Slow');
+            });
+            myChatHub.client.sendMeddageToAll = function (message) {
+                $('#msgWindow').val($('#msgWindow').val() + message +"\n")
+            }
+            myChatHub.client.alertCaller = function (text) {
+                console.log(text);
+            }
+        })
+    </script>
+
+</head>
+
+<body>
+    <textarea id="msgWindow" style="width:400px; height:400px"></textarea>
+    <button type="button" id="disconect">Disconet</button>
+    <div id="shape" style="width:100px; height:100px; background-color:blue">
+        <br />
+        <input type="text" id="txtMessage"/>
+        <input type="button" id="sendMessage" value="Send Message"/>
+    </div>
+</body>
+</html>
