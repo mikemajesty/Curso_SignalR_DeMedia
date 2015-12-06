@@ -104,7 +104,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Global.asax" />
+    <Content Include="Index-.html" />
     <Content Include="Index.html" />
+    <Content Include="spy.html" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.0.js" />
@@ -113,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionSpy.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spy.cs" />
     <Compile Include="Startup.cs" />

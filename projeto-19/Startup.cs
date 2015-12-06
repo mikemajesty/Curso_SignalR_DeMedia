@@ -8,7 +8,9 @@ namespace projeto_19
     {
         public void Configuration(IAppBuilder app)
         {
-            app.MapSignalR();
+            app.MapSignalR<ConnectionSpy>("/spy");
+            app.Use<Spy>();
+
         }
     }
 }
