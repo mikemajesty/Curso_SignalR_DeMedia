@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="http://localhost:8080/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.connection.hub.url = "http://localhost:8080/signalr";
+            var chat = $.connection.myHub;
+            chat.client.addMessage = function (name, message) {
+                var encodeName = $("<div/>").text(name).html();
+                var encodeMessage = $("<div/>").text(message).html();
+                $('#discussion').append("<li><strong>" + encodeName + "</strong>:&nbsp;" + encodeMessage + "</li>");
+
+            };
+            $('#displayName').val(prompt("Enter your name: ", ""));
+            $('#txtMessage').focus();
+            $.connection.hub.start().done(function () {
+                $('#btnSendMessage').click(function () {
+                    chat.server.send($('#displayName').val(), $('#txtMessage').val());
+                    ('#txtMessage').val("");
+                });
+            });
+            
+        });
+    </script>
+     <style type="text/css">
+         .container{
+             background-color: aliceblue;
+             border: thick solid #ff0000;
+             padding:20px;
+             margin: 20px;
+         }
+     </style>
+
+</head>
+<body>
+    <li><strong>++</strong>:&nbsp;+ </li>
+    <div class="container">
+        <input type="text" id="txtMessage"  />
+        <input type="button" id="btnSendMessage" value="Sand"/>
+        <input type="hidden" id="displayName"/>
+        <ul id="discussion"> 
+
+        </ul>
+    </div>
+</body>
+</html>
